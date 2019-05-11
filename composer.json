@@ -1,7 +1,7 @@
 {
   "name": "razesoldier/wikitext-object-model",
   "keywords": ["wikitext"],
-  "license": ["GPL-2.0 or later"],
+  "license": "GPL-2.0-or-later",
   "require": {
     "php": "^7.1"
   },
