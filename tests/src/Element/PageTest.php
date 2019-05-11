@@ -23,6 +23,7 @@ namespace RazeSoldier\WikitextObjectModel\Test\Element;
 use RazeSoldier\WikitextObjectModel\Element\Page;
 use PHPUnit\Framework\TestCase;
 use RazeSoldier\WikitextObjectModel\Element\Section;
+use RazeSoldier\WikitextObjectModel\Parser\PageParser;
 
 class PageTest extends TestCase
 {
@@ -56,5 +57,17 @@ class PageTest extends TestCase
     {
         $page = new Page;
         $page->addElement(1);
+    }
+
+    public function testGetFirstSection()
+    {
+        $page = (new PageParser(file_get_contents(ASSETS_DIR . '/page_test.wikitext')))->getResult();
+        $this->assertSame('本页面包含World模式现有梯子的详细信息，包括各梯子每一级的步数，奖励与限制条件 <s>为什么会有“全曲限制”这种限制了和没限制一样的东西</s>
+
+[https://wikiwiki.jp/arcaea/%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%E3%83%A2%E3%83%BC%E3%83%89/Chapter%200 JP第零章]<br>
+[https://wikiwiki.jp/arcaea/%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%E3%83%A2%E3%83%BC%E3%83%89/Chapter%201 JP第一章]<br>
+[https://wikiwiki.jp/arcaea/%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%E3%83%A2%E3%83%BC%E3%83%89/Chapter%202 JP第二章]<br>
+[https://wikiwiki.jp/arcaea/%E3%83%AF%E3%83%BC%E3%83%AB%E3%83%89%E3%83%A2%E3%83%BC%E3%83%89/Chapter%203 JP第三章]
+', $page->getFirstSection());
     }
 }

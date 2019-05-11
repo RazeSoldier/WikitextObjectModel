@@ -37,7 +37,7 @@ class Page implements IElement
     private $wikitext;
 
     /**
-     * @var array 页面的结构
+     * @var array 一个数字索引的数组，用于存储页面的结构。元素类型为string或IElement
      */
     private $structure;
 
@@ -140,5 +140,37 @@ class Page implements IElement
     {
         $this->sync();
         return $this->wikitext;
+    }
+
+    /**
+     * Get the first section of this page
+     * Note: "FirstSection" does not equal the section that position is 0
+     * Means the text between the beginning of this page and the first Section
+     * Equivalent to getWikitext() when this page haven't any Section
+     * @return string
+     */
+    public function getFirstSection() : string
+    {
+        $this->sync();
+        if ($this->sectionIndex === []) {
+            return $this->getWikitext();
+        } else {
+            $this->sync();
+            $text = '';
+            $pos = $this->sectionIndex[0]['position'];
+            for ($i = 0; $i < $pos; $i++) {
+                $item = $this->structure[$i];
+                // Avoid empty line in the end
+                if ($i === $pos - 1 && $item === '') {
+                    break;
+                }
+                if ($item instanceof IElement) {
+                    $text .= "{$item->getWikitext()}\n";
+                } else {
+                    $text .= "$item\n";
+                }
+            }
+            return $text;
+        }
     }
 }
